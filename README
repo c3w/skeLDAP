@@ -1,0 +1,53 @@
+###
+## skeLDAP
+## rev 20100807-001
+## license: open source!
+
+### What is skeLDAP
+skeleton configs and provisioning scripts for openLDAP
+including system configs for server and client,
+plus automount ability to allow ssh keys across your enterprise
+
+### Why did I write this?
+There seem to be many ways to implement LDAP across your network; however,
+most google search results for LDAP seem to render 'HELP!' threads without an all-in-one solution.
+Problems such as 'whitespace' in the configs, archaic command-line parameters, and really just
+tons of places to make easy mistakes.
+
+What's also missing are the proper system config files to change - things like nsswitch.conf, auto.master, hosts.allow, and required services such as nfs, autofs, rpcbind, and nfslock.
+
+### What the upshot of all this?
+You'll be able to deploy and manage LDAP+automount across your network, over a cup of coffee, without mediculusly crafting google searches to find that [SOLVED] answer to the tens of things that can go wrong - and by wrong, I mean: e.g. putting ldap before files in nsswitch.conf and completely crashing your server until you can boot off a recovery CD - yeah that happened to me;)
+
+### So this project is new - what's in the box, and what's missing
+So first, I'd love to get some collaborators, so read on to the 'caveats'
+
+You get a skeleton .ldif that creates a user and an automount LDAP entry
+
+Then you get scripts to generate that user, create their dir, generate a random password, and email the end-user. The script auto-increments the UID so you don't step on any toes.  You also can choose the GID for things like development, or vpn-only access - be creative.
+
+There is a delete script that, given a stub .ldif file will remove that user from LDAP.
+
+There is a simple search script so you can check what's in the database.
+
+######
+The glue of this whole projects are the system-level configs you need to get LDAP user auth and automount.
+This includes pam.d/sshd, pam.d/passwd, /etc/nsswitch.conf, /exports, /etc/ldap.conf, and some 'server init' and 'client init' scripts that backup existing files and deploys the skeLDAP versions!
+######
+
+### So now what's missing
+I have no idea how to modify LDAP entries - things like changing shells, or forgotten passwords.
+
+When I run into these issues, I normally delete the user and recreate them with a modified skel.ldif and same uid.
+
+This project is very basic - everything is bash/sed and its still really meant for sysadmins who know their way around.
+
+### So where's the code?
+I'm repackaging my scripts to make them universally-friendly and they should be up this weekend or soon at least
+
+### CONTACT?
+You most likely got this from my github project http://github.com/c3w/skeLDAP .. its an open project, so join in!
+
+\/peace
+Chas. <c3w@juicypop.net>
+
