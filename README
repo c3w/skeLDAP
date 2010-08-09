@@ -37,7 +37,7 @@ There is a delete script that, given a stub .ldif file will remove that user fro
 There is a simple search script so you can check what's in the database.
 
 ######
-The glue of this whole projects are the system-level configs you need to get LDAP user auth and
+The glue of this whole project is the system-level configs you need to get LDAP user auth and
 automount.
 
 This includes pam.d/sshd, pam.d/passwd, /etc/nsswitch.conf, /exports, /etc/ldap.conf, and some

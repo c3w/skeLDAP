@@ -1,0 +1,23 @@
+dn: dc=%%DOMAIN%%,dc=%%TLD%%
+dc: %%DOMAIN%%
+description: %%DOMAIN%%.%%TLD%%
+objectClass: dcObject
+objectClass: organization
+o: %%DOMAIN%%.%%TLD%%
+
+dn: ou=people,dc=%%DOMAIN%%,dc=%%TLD%%
+ou: people
+description: People
+objectClass: organizationalUnit
+
+dn: ou=auto.master,dc=%%DOMAIN%%,dc=%%TLD%%
+objectClass: top
+objectClass: automountMap
+ou: auto.master
+
+# auto.home
+dn: ou=auto.home,dc=%%DOMAIN%%,dc=%%TLD%%
+objectClass: top
+objectClass: automountMap
+ou: auto.home
+

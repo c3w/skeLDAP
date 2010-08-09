@@ -1,0 +1,17 @@
+dn: uid=%%USERNAME%%,ou=people,dc=%%DOMAIN%%,dc=%%TLD%%
+uid: %%USERNAME%%
+cn: %%FULLNAME%%
+objectclass: account
+objectclass: posixAccount
+objectclass: top
+loginshell: /bin/bash
+uidnumber: %%UID%%
+gidnumber: 120
+homedirectory: /home/%%USERNAME%%
+gecos: %%FULLNAME%%,,,,
+userpassword: %%PASSWORD%%
+
+dn: cn=%%USERNAME%%,ou=auto.home,dc=%%DOMAIN%%,dc=%%TLD%%
+objectClass: automount
+automountInformation: -rw,hard,intr dev:/home/%%USERNAME%%
+cn: %%USERNAME%%

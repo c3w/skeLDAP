@@ -1,0 +1,53 @@
+#!/bin/sh
+
+###
+## skeLDAP Provisioning Scripts
+## provisions LDAP Users and automount /home
+if [ ! ${4} ]; then { echo "Usage: $0 [username] [email address] [firstname] [lastname]"; exit; }; fi
+
+USERNAME="${1}"
+EMAIL="${2}"
+FIRSTNAME="${3}"
+LASTNAME="${4}"
+SKEL="/etc/skeldap/user.skel.ldif"
+UID_FILE="/etc/skeldap/uid.txt"
+UID_NEXT=$[$(cat ${UID_FILE})+1]
+USERFILE=$(mktemp)
+PASSWORD_PLAIN=$(apg -n1)
+PASSWORD_SLAP=$(slappasswd -s ${PASSWORD_PLAIN})
+MAIL_BIN="/usr/sbin/sendmail"
+
+
+function addUser {
+sed -e "s/%%USERNAME%%/${USERNAME}/g;s/%%FULLNAME%%/${FIRSTNAME} ${LASTNAME}/g;s/%%PASSWORD%%/${PASSWORD_SLAP}/g;s/%%UID%%/${UID_NEXT}/g" ${SKEL} > ${USERFILE}
+
+/usr/local/bin/skeload.sh ${USERFILE}
+
+mkdir /home/${USERNAME} && chown ${UID_NEXT}:users /home/${USERNAME}
+}
+
+function emailUser {
+echo EMailing User ${USERNAME}, via ${EMAIL}
+${MAIL_BIN} ${EMAIL} << EOF
+From: skeLDAP Provisioner <root@localhost>
+Subject: $(hostname) account details
+
+An account has been created for you on $(hostname)
+
+Username: ${USERNAME}
+Password: ${PASSWORD_PLAIN}
+(please change your password via 'passwd')
+
+--
+\/peace
+skeLDAP Provisioning
+
+EOF
+}
+
+
+###
+## START HERE
+##
+echo ${UID_NEXT} > ${UID_FILE};
+if addUser; then { emailUser; rm -f ${USERFILE}; }; fi

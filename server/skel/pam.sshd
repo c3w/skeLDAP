@@ -1,0 +1,12 @@
+#%PAM-1.0
+auth	   sufficient	pam_ldap.so
+auth       include      system-auth
+account	   sufficient	pam_ldap.so
+account    required     pam_nologin.so
+account    include      system-auth
+password   sufficient	pam_ldap.so
+password   include      system-auth
+session    sufficient	pam_ldap.so
+session    optional     pam_keyinit.so force revoke
+session    include      system-auth
+session    required     pam_loginuid.so

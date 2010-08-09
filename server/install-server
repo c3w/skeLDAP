@@ -1,0 +1,54 @@
+#!/bin/bash
+
+if [ "${USER}" != "root" ]; then { echo "$0 must be run as root.  exiting"; exit; }; fi
+
+. ./globals.inc
+. ./functions.inc
+
+###
+## START HERE
+##
+if serverReqs; then {
+	echo "SUCCESS! This system meets the requirements to be an LDAP Server"
+} else {
+	echo "Requirement check failed.  Please install the nessecary packages and try again";
+	exit 2;
+}; fi
+
+if serverConfig; then {
+	echo "Great! Your configuration was accepted and we're about to copy your configs into place and install some scripts in ${INSTALL_DIR}"
+} else {
+	echo "Aborting.  Please try again!"
+	exit 2
+}; fi
+
+if copyProduction; then {
+	echo "Configuration files have been successfully copied."
+} else {
+	echo "Something went wrong copying configuration files. aborting"
+	exit 2
+}; fi
+
+if startServices; then {
+	echo "All required services are now running!"
+} else {
+	echo "There was an error starting some or all of the services. aborting."
+	exit 2
+}; fi
+
+if initLDAP; then {
+	echo "LDAP DB Initialization was successful"
+echo "Updating /etc/nsswitch.conf.  Backup will be stored at /etc/nsswitch.conf.orig"
+cp /etc/nsswitch.conf /etc/nsswitch.conf.orig \
+&& cat /etc/nsswitch.conf.orig | \
+        sed -e "s/^\(passwd:.*files\)$/\1 ldap/;s/^\(shadow:.*files\)$/\1 ldap/;s/^\(group:.*files\)$/\1 ldap/" > /etc/nsswitch.conf || return 1;
+
+} else {
+	echo "LDAP DB Init failed. aborting"
+	exit 2
+}; fi
+
+echo
+echo "*** We didn't want to overwrite your /etc/exports or /etc/hosts.allow, so please modify as needed"
+echo "*** There are samples in hints/"
+echo "*** You must restart nfs whenever /etc/exports is modified"

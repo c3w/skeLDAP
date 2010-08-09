@@ -1,0 +1,25 @@
+###
+## skeLDAP
+## INSTALL for RedHat and Variants
+##
+VERSION 0.1
+
+*** WARNING ***
+	This is ALPHA Software.  Please use for testing purposes only on non-production machines!
+	-the management
+
+This ALPHA version has only been tested on CentOS 5.3 x86_64
+
+## Required Packages
+server:
+openldap clients and servers, nss_ldap
+
+client:
+openldap clients, nss_ldap
+
+SPECIAL NOTE: you may need to turn off selinux via 'setenforce 0'
+
+server/install-server :: to be run on your OpenLDAP server to-be
+client/install-client :: to be run on your remote notes
+
+Now you can provision users using "skelprov", located in /usr/local/bin!

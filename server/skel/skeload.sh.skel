@@ -1,0 +1,2 @@
+#!/bin/bash
+ldapadd -x -D "cn=Manager,dc=%%DOMAIN%%,dc=%%TLD%%" -W -f "${1}"

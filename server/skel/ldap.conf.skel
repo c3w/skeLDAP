@@ -1,0 +1,8 @@
+# See ldap.conf(5) for details
+# This file should be world readable but not world writable.
+
+BASE	dc=%%DOMAIN%%, dc=%%TLD%%
+URI	ldap://%%LDAPSERVER%%/
+TLS_CACERTDIR /etc/openldap/cacerts
+pam_crypt	local
+bind_policy	soft

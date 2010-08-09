@@ -1,0 +1,6 @@
+###
+## skeLDAP TODO
+## 20100808
+
+. client-side installer - see the client/TODO tho - its braindead simple
+. better LDAP manipulation scripts, possibly with python-ldap - jfray?

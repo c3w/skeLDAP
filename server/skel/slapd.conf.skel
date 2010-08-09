@@ -1,0 +1,84 @@
+# $OpenLDAP: pkg/ldap/servers/slapd/back-sql/rdbms_depend/mysql/slapd.conf,v 1.5.2.1 2005/01/20 18:04:03 kurt Exp $
+#
+# See slapd.conf(5) for details on configuration options.
+# This file should NOT be world readable.
+#
+include		/etc/openldap/schema/core.schema
+include		/etc/openldap/schema/cosine.schema
+include		/etc/openldap/schema/inetorgperson.schema
+include		/etc/openldap/schema/nis.schema
+include		/etc/openldap/schema/redhat/autofs.schema
+allow bind_v2
+
+# Define global ACLs to disable default read access.
+
+# Do not enable referrals until AFTER you have a working directory
+# service AND an understanding of referrals.
+#referral	ldap://root.openldap.org
+
+pidfile		/var/local/openldap/slapd.pid
+argsfile	/var/local/openldap/slapd.args
+
+# Load dynamic backend modules:
+modulepath    /usr/lib64/openldap
+
+# modules available in openldap-servers-overlays RPM package:
+#moduleload accesslog.la
+#moduleload auditlog.la
+#moduleload denyop.la
+#moduleload dyngroup.la
+#moduleload dynlist.la
+#moduleload lastmod.la
+#moduleload pcache.la
+#moduleload ppolicy.la
+#moduleload refint.la
+#moduleload retcode.la
+#moduleload rwm.la
+#moduleload smbk5pwd.la
+#moduleload syncprov.la
+#moduleload translucent.la
+#moduleload unique.la
+#moduleload valsort.la
+
+# modules available in openldap-servers-sql RPM package:
+#moduleload back_sql.la
+
+
+
+#######################################################################
+# sql database definitions
+#######################################################################
+
+#database	sql
+#suffix		"o=example,c=com"
+#rootdn		"cn=manager,o=example,c=com
+#dbname		yn_ldap
+#dbuser		manager
+#dbpasswd	no0dlev8
+#subtree_cond	"ldap_entries.dn LIKE CONCAT('%',?)"
+#insentry_stmt	"INSERT INTO ldap_entries (dn,oc_map_id,parent,keyval) VALUES (?,?,?,?)"
+#has_ldapinfo_dn_ru	no
+
+database	bdb
+suffix		"dc=%%DOMAIN%%,dc=%%TLD%%"
+rootdn		"cn=Manager,dc=%%DOMAIN%%,dc=%%TLD%%"
+directory	/var/local/openldap-data
+
+access to attrs=userpassword
+ by self write
+ by anonymous auth
+ by * read
+
+access to *
+ by * read
+
+#access to attrs=userPassword
+#  by self write
+#  by anonymous auth
+#  by * none
+#
+#access to attrs=lmPassword,ntPassword
+#  by * none
+#
+#access to *
+#  by * read

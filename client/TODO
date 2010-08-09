@@ -1,0 +1,24 @@
+. I need to write this part of the package, but thought I'd post some tips here in case you want to get started.
+
+on the remote machine:
+/etc/auto.master
+	/home	ldap:myskeLDAPserver.com:ou=auto.home,dc=twitter,dc=org
+
+copy the /etc/openldap/ldap.conf from your ldap server to client's /etc/ldap.conf after setting it up
+
+modify /etc/nsswitch.conf so the lines look like this:
+
+passwd:     files ldap
+shadow:     files ldap
+group:      files ldap
+
+
+copy the /etc/pam.d/sshd file from the skeLDAP server and restart sshd
+
+that's it! if NFS is set up correctly on the server, you should have automount /home dirs!
+
+If you are having NFS trouble, try mounting /home manually to test and check both server and client logs
+
+\/peace!
+Chas.
+

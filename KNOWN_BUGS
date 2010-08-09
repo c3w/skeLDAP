@@ -1,0 +1,10 @@
+## skeLDAP
+##
+
+Sometimes 'skelprov' throws a sed error - can somebody fix that? I thought it had to do with special characters that apg generated, but that's not the case - you get this error, your account will not work and you will need to delete the user from ldap and also their homedir..
+
+a more graceful way to handle all these little nagging bugs would be a good thing.
+
+I NEED TESTERS!  Test on a VM, or 2, or 10! ;)
+
+-c3w
