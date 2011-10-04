@@ -54,7 +54,16 @@ case "${CONFIRM}" in
 		"${USER_LDIF_SKEL}" > "${USER_LDIF_PROD}" || return 1
 		sed -e \
 		"s/%%DOMAIN%%/${DOMAIN}/;s/%%TLD%%/${TLD}/" \
+		"${USERPASSWD_LDIF_SKEL}" > "${USERPASSWD_LDIF_PROD}" || return 1
+		sed -e \
+		"s/%%DOMAIN%%/${DOMAIN}/;s/%%TLD%%/${TLD}/" \
 		"${SKELOAD_SKEL}" > "${SKELOAD_PROD}" || return 1
+		sed -e \
+		"s/%%DOMAIN%%/${DOMAIN}/;s/%%TLD%%/${TLD}/" \
+		"${SKELSEARCH_SKEL}" > "${SKELSEARCH_PROD}" || return 1
+		sed -e \
+		"s/%%DOMAIN%%/${DOMAIN}/;s/%%TLD%%/${TLD}/" \
+		"${SKELDEL_SKEL}" > "${SKELDEL_PROD}" || return 1
 		sed -e \
 		"s/%%DOMAIN%%/${DOMAIN}/;s/%%TLD%%/${TLD}/" \
 		"${SLAPD_SKEL}" > "${SLAPD_PROD}" || return 1
@@ -81,9 +90,13 @@ if [ ! -f "${DB_CONFIG_EXAMPLE}" ]; then {
 cp "${LDAP_PROD}" "${INSTALL_ETC}" || return 1;
 cp "${LDAP_PROD}" /etc || return 1;
 cp "${USER_LDIF_PROD}" "${INSTALL_ETC}" || return 1;
+cp "${USERPASSWD_LDIF_PROD}" "${INSTALL_ETC}" || return 1;
 cp "${INIT_LDIF_PROD}" "${INSTALL_ETC}" || return 1;
 cp "${SLAPD_PROD}" "${LDAP_DIR}" || return 1;
 cp "${SKELOAD_PROD}" "${INSTALL_DIR}" && chmod u+x ${INSTALL_DIR}/skeload.sh || return 1;
+cp "${SKELMOD_PROD}" "${INSTALL_DIR}" && chmod u+x ${INSTALL_DIR}/skelmod.sh || return 1;
+cp "${SKELSEARCH_PROD}" "${INSTALL_DIR}" && chmod u+x ${INSTALL_DIR}/skelsearch || return 1;
+cp "${SKELDEL_PROD}" "${INSTALL_DIR}" && chmod u+x ${INSTALL_DIR}/skeldel || return 1;
 cp "${UID_FILE}" "${INSTALL_ETC}" || return 1;
 cp scripts/* "${INSTALL_DIR}" || return 1;
 cp skel/pam.sshd /etc/pam.d/sshd

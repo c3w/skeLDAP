@@ -1,0 +1,2 @@
+#!/bin/bash
+ldapsearch -x -b 'dc=%%DOMAIN%%,dc=%%TLD%%' '(objectclass=*)'

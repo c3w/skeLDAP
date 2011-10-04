@@ -1,0 +1,4 @@
+dn: uid=%%USERNAME%%,ou=people,dc=%%DOMAIN%%,dc=%%TLD%%
+changetype: modify
+replace: userpassword
+userpassword: %%PASSWORD%%

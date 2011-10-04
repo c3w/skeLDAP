@@ -1,0 +1,2 @@
+uid=myusername,ou=people,dc=mydomain,dc=com
+cn=myusername,ou=auto.home,dc=mydomain,dc=com

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+if [ ! "${1}" ]; then { echo "Usage: $0 [ldif file]"; exit 1; }; fi
+ldapdelete -x -D "cn=Manager,dc=%%DOMAIN%%,dc=%%TLD%%" -W -f "${1}"

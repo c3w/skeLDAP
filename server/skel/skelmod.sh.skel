@@ -1,0 +1,2 @@
+#!/bin/bash
+ldapmodify -W -x -D "cn=Manager,dc=%%DOMAIN%%,dc=%%TLD%%" -f "${1}"

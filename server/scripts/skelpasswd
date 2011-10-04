@@ -1,0 +1,44 @@
+#!/bin/sh
+
+###
+## skeLDAP Password Changer
+if [ ! ${2} ]; then { echo "Usage: $0 [username] [email]"; exit; }; fi
+
+USERNAME="${1}"
+EMAIL="${2}"
+PASSWORD_PLAIN=$(apg -n1)
+PASSWORD_SLAP=$(slappasswd -s ${PASSWORD_PLAIN})
+MAIL_BIN="/usr/sbin/sendmail"
+SKEL="/etc/skeldap/userpasswd.skel.ldif"
+USERFILE=$(mktemp)
+
+function changePassword {
+sed -e "s/%%USERNAME%%/${USERNAME}/g;s/%%PASSWORD%%/${PASSWORD_SLAP}/g" ${SKEL} > ${USERFILE}
+/usr/local/bin/skelmod.sh ${USERFILE}
+}
+
+function emailUser {
+echo EMailing User ${USERNAME}, via ${EMAIL}
+${MAIL_BIN} ${EMAIL} << EOF
+From: skeLDAP Provisioner <root@localhost>
+Subject: $(hostname) account details
+
+Your password has been modified on $(hostname)
+
+Username: ${USERNAME}
+Password: ${PASSWORD_PLAIN}
+(please change your password via 'passwd')
+
+--
+\/peace
+skeLDAP Provisioning
+
+EOF
+}
+
+
+###
+## START HERE
+##
+if changePassword; then { emailUser; rm -f ${USERFILE}; }; fi
+
