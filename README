@@ -1,10 +1,14 @@
 ###
 ## skeLDAP
 ## 
-## rev 20111004-001
+## rev 20111004-002 @c3w @bestfriendchris
+## fixed special-character exceptions with sed and slappasswd.
+## set server `hostname` as default nfs server for auto.home.  override in skel/user.ldif.skel if needed
+##
+## rev 20111004-001 @c3w
 ## added modify, delete, search
 ##
-## rev 20100807-001
+## rev 20100807-001 @c3w
 ## license: open source!
 
 

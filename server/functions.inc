@@ -50,7 +50,7 @@ case "${CONFIRM}" in
 		"s/%%DOMAIN%%/${DOMAIN}/;s/%%TLD%%/${TLD}/" \
 		"${INIT_LDIF_SKEL}" > "${INIT_LDIF_PROD}" || return 1
 		sed -e \
-		"s/%%DOMAIN%%/${DOMAIN}/;s/%%TLD%%/${TLD}/" \
+		"s/%%DOMAIN%%/${DOMAIN}/;s/%%TLD%%/${TLD}/;s/%%NFSHOST%%/${NFSHOST}/" \
 		"${USER_LDIF_SKEL}" > "${USER_LDIF_PROD}" || return 1
 		sed -e \
 		"s/%%DOMAIN%%/${DOMAIN}/;s/%%TLD%%/${TLD}/" \

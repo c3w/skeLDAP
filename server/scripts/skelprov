@@ -13,13 +13,13 @@ SKEL="/etc/skeldap/user.skel.ldif"
 UID_FILE="/etc/skeldap/uid.txt"
 UID_NEXT=$[$(cat ${UID_FILE})+1]
 USERFILE=$(mktemp)
-PASSWORD_PLAIN=$(apg -n1)
+PASSWORD_PLAIN=$(apg -n1 -M ncl)
 PASSWORD_SLAP=$(slappasswd -s ${PASSWORD_PLAIN})
 MAIL_BIN="/usr/sbin/sendmail"
 
 
 function addUser {
-sed -e "s/%%USERNAME%%/${USERNAME}/g;s/%%FULLNAME%%/${FIRSTNAME} ${LASTNAME}/g;s/%%PASSWORD%%/${PASSWORD_SLAP}/g;s/%%UID%%/${UID_NEXT}/g" ${SKEL} > ${USERFILE}
+sed -e "s/%%USERNAME%%/${USERNAME}/g;s/%%FULLNAME%%/${FIRSTNAME} ${LASTNAME}/g;s!%%PASSWORD%%!${PASSWORD_SLAP}!g;s/%%UID%%/${UID_NEXT}/g" ${SKEL} > ${USERFILE}
 
 /usr/local/bin/skeload.sh ${USERFILE}
 

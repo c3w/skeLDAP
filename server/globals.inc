@@ -7,6 +7,8 @@ NFSLOCK_INIT="${INIT_DIR}/nfslock"
 INSTALL_DIR="/usr/local/bin"
 INSTALL_ETC="/etc/skeldap"
 
+NFSHOST=$(hostname)
+
 ### SETUP DIRS
 LDAP_SKEL="skel/ldap.conf.skel"
 LDAP_PROD="production/ldap.conf"

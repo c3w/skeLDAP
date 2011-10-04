@@ -13,5 +13,5 @@ userpassword: %%PASSWORD%%
 
 dn: cn=%%USERNAME%%,ou=auto.home,dc=%%DOMAIN%%,dc=%%TLD%%
 objectClass: automount
-automountInformation: -rw,hard,intr dev:/home/%%USERNAME%%
+automountInformation: -rw,hard,intr %%NFSHOST%%:/home/%%USERNAME%%
 cn: %%USERNAME%%
